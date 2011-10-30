@@ -1,7 +1,20 @@
-console.log("Running sanity.js");
+var STATUS_ACTIVE = 'active';
+var STATUS_INACTIVE = 'inactive';
 
-function getInactiveKey(bundleId) {
-    return 'uk.co.goosoftware.app-id-sanity/' + bundleId + '/inactive';
+function BundleId(bundleId) {
+    this.bundleId = bundleId;
+}
+
+BundleId.prototype.isInactive = function() {
+    return localStorage.getItem(this.getActivityStatusKey()) == STATUS_INACTIVE;
+}
+
+BundleId.prototype.getActivityStatusKey = function() {
+    return 'uk.co.goosoftware.app-id-sanity/' + this.bundleId + '/status';
+}
+
+BundleId.prototype.setActive = function(isActive) {
+    localStorage.setItem(this.getActivityStatusKey(), isActive ? STATUS_ACTIVE : STATUS_INACTIVE);
 }
 
 if (document.location.href.match('/manage/bundles/index.action$')) {
@@ -15,27 +28,22 @@ if (document.location.href.match('/manage/bundles/index.action$')) {
             // Get the bundle ID from the Configure link
             var matches = tds.last().html().match('\\?displayId=([A-Z0-9]+)');
             if (matches) {
-                var bundleId = matches[1];
-
-                var is_inactive = localStorage.getItem(getInactiveKey(bundleId));
-                if (is_inactive) {
+                var bundleId = new BundleId(matches[1]);
+                if (bundleId.isInactive()) {
                     $(tr).addClass('inactive');
                 }
 
                 var delete_td = $('<td style="vertical-align:middle; text-align:center;"></td>');
+
                 var checkbox = $('<input type="checkbox"></input>');
-                checkbox.prop('checked', !is_inactive);
-                
+                checkbox.prop('checked', !bundleId.isInactive());
                 checkbox.click(function(event) {
                     var is_active = $(this).is(':checked');
-                    if (is_active) {
-                        $(tr).removeClass('inactive');
-                        localStorage.setItem(getInactiveKey(bundleId), false);
-                    } else {
-                        $(tr).addClass('inactive');
-                        localStorage.setItem(getInactiveKey(bundleId), true);
-                    }
+                    bundleId.setActive(is_active);
+                    $(tr).toggleClass('inactive', !is_active);
                 });
+                
+                // Append checkbox to td, appent td to tr
                 delete_td.append(checkbox);
                 $(tr).append(delete_td);
             }
@@ -45,10 +53,11 @@ if (document.location.href.match('/manage/bundles/index.action$')) {
     });
 } else if (document.location.href.match('/manage/provisioningprofiles/')) {
     $('select[name="cfBundleDisplayId"] option').each(function(index, option) {
-        var bundleId = $(option).val();
-        var is_inactive = localStorage.getItem(getInactiveKey(bundleId));
-        console.log(bundleId + ': ' + is_inactive);
-        if (bundleId.length && is_inactive) {
+        if ($(option).val().length == 0)
+            return;
+            
+        var bundleId = new BundleId($(option).val());
+        if (bundleId.isInactive()) {
             $(option).remove();
         }
     });
