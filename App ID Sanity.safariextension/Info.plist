@@ -49,6 +49,8 @@
 			<string>Some</string>
 		</dict>
 	</dict>
+	<key>Update Manifest URL</key>
+	<string>https://raw.github.com/simonwhitaker/app-id-sanity/master/update-manifest.plist</string>
 	<key>Website</key>
 	<string>http://www.goosoftware.co.uk/</string>
 </dict>
