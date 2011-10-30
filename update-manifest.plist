@@ -10,11 +10,11 @@
        <key>Developer Identifier</key>
        <string>VW9QM42U4U</string>
        <key>CFBundleVersion</key>
-       <string>1</string>
+       <string>2</string>
        <key>CFBundleShortVersionString</key>
-       <string>1.0</string>
+       <string>1.0.1</string>
        <key>URL</key>
-       <string>https://github.com/downloads/simonwhitaker/app-id-sanity/App%20ID%20Sanity.safariextz</string>
+       <string>https://github.com/downloads/simonwhitaker/app-id-sanity/App%20ID%20Sanity%201.0.1.safariextz</string>
      </dict>
    </array>
 </dict>
