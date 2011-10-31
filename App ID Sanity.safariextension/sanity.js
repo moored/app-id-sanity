@@ -83,13 +83,17 @@ if (document.location.href.match('/manage/bundles/index.action$')) {
 } else if (document.location.href.match('/manage/provisioningprofiles/')) {
     $('select[name="cfBundleDisplayId"] option[value!=""]').each(function(index, option) {
         var bundleId = new BundleId($(option).val());
+        
+        // if this bundle ID's inactive, remove it from the drop down
         if (bundleId.isInactive()) {
             $(option).remove();
+        } else {
+            // If this bundle ID has a pseudonym, use it here
+            var pseudonym = bundleId.getPseudonym();
+            if (pseudonym && pseudonym.length > 0) {
+                $(option).html(pseudonym);
+            };
         }
-        var pseudonym = bundleId.getPseudonym();
-        if (pseudonym && pseudonym.length > 0) {
-            $(option).html(pseudonym);
-        };
     });
     
 }
