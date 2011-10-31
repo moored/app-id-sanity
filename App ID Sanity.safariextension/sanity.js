@@ -95,5 +95,11 @@ if (document.location.href.match('/manage/bundles/index.action$')) {
             };
         }
     });
-    
+
+    // Finally, take the filtered, updated list and sort it in name order.
+    var options = $('select[name="cfBundleDisplayId"] option[value!=""]');
+    options.sort(function (a, b){
+        return $(a).html().localeCompare($(b).html());
+    });
+    $('select[name="cfBundleDisplayId"]').remove('option[value!=""]').append(options);
 }
