@@ -81,10 +81,7 @@ if (document.location.href.match('/manage/bundles/index.action$')) {
         }
     });
 } else if (document.location.href.match('/manage/provisioningprofiles/')) {
-    $('select[name="cfBundleDisplayId"] option').each(function(index, option) {
-        if ($(option).val().length == 0)
-            return;
-            
+    $('select[name="cfBundleDisplayId"] option[name!=""]').each(function(index, option) {
         var bundleId = new BundleId($(option).val());
         if (bundleId.isInactive()) {
             $(option).remove();
