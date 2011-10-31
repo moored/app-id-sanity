@@ -1,3 +1,14 @@
 tr.inactive {
     background-color: #eee;
 }
+
+td.name input.description {
+    background-color: rgba(255,255,0,0.2);
+    border: 1px solid #cc0;
+    padding: 2px 0 !important;
+}
+
+tr.inactive input.description {
+    border-color: #888;
+    background-color: #ddd;
+}
