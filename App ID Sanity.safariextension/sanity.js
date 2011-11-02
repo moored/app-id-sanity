@@ -52,7 +52,7 @@ if (document.location.href.match('/manage/bundles/index.action$')) {
                 // Make the description editable
                 var name_td = $(tr).find('td.name');
                 var re = /<br>(.+)/;
-                name_td.html(name_td.html().replace(re, '<br><input type="text" class="description" value="$1"></input>'));
+                name_td.html(name_td.html().replace(re, '<br><input type="text" class="description" placeholder="$1" value="$1"></input>'));
                 
                 var description = name_td.find('input.description');
                 var pseudonym = bundleId.getPseudonym();
