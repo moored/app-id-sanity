@@ -25,7 +25,12 @@ BundleId.prototype.getPseudonym = function() {
 }
 
 BundleId.prototype.setPseudonym = function(pseudonym) {
-    localStorage.setItem(this.getStorageKey(STORAGE_KEY_PSEUDONYM), pseudonym);
+    if (pseudonym.length > 0) {
+        localStorage.setItem(this.getStorageKey(STORAGE_KEY_PSEUDONYM), pseudonym);
+    }
+    else {
+        localStorage.removeItem(this.getStorageKey(STORAGE_KEY_PSEUDONYM));
+    }
 }
 
 if (document.location.href.match('/manage/bundles/index.action$')) {
