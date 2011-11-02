@@ -34,6 +34,10 @@ BundleId.prototype.setPseudonym = function(pseudonym) {
 }
 
 if (document.location.href.match('/manage/bundles/index.action$')) {
+    //--------------------------------------------
+    // Index page
+    //--------------------------------------------
+
     // Get all the rows in the table inside form#index
     $('form#index tr').each(function(index, tr){
         // Get the last <td> in the row - it contains the Configure link
@@ -85,7 +89,11 @@ if (document.location.href.match('/manage/bundles/index.action$')) {
             $(tr).append($('<th>Active</th>'));
         }
     });
-} else if (document.location.href.match('/manage/provisioningprofiles/')) {
+} else if (document.location.href.match('/manage/provisioningprofiles/create.action')) {
+    //--------------------------------------------
+    // Provisioning profile creation page
+    //--------------------------------------------
+    
     $('select[name="cfBundleDisplayId"] option[value!=""]').each(function(index, option) {
         var bundleId = new BundleId($(option).val());
         
@@ -95,7 +103,7 @@ if (document.location.href.match('/manage/bundles/index.action$')) {
         } else {
             // If this bundle ID has a pseudonym, use it here
             var pseudonym = bundleId.getPseudonym();
-            if (pseudonym && pseudonym.length > 0) {
+            if (pseudonym) {
                 $(option).html(pseudonym);
             };
         }
@@ -107,4 +115,20 @@ if (document.location.href.match('/manage/bundles/index.action$')) {
         return $(a).html().localeCompare($(b).html());
     });
     $('select[name="cfBundleDisplayId"]').remove('option[value!=""]').append(options);
+} else if (document.location.href.match('/manage/bundles/configure.action')) {
+    //--------------------------------------------
+    // Single bundle ID detail page
+    //--------------------------------------------
+    
+    var matches = document.location.href.match('\\?displayId=([A-Z0-9]+)$');
+    if (matches) {
+        var bundleId = new BundleId(matches[1]);
+        var pseudonym = bundleId.getPseudonym();
+        console.log(pseudonym);
+        if (pseudonym) {
+            var original_name = $('.provprofilebadge .details strong').html();
+            $('.provprofilebadge .details strong').html(pseudonym);
+            $('.provprofilebadge .details strong').append($('<span class="original_name"> (original name: "' + original_name + '")</span>'));
+        }
+    }    
 }
