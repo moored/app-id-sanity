@@ -124,7 +124,6 @@ if (document.location.href.match('/manage/bundles/index.action$')) {
     if (matches) {
         var bundleId = new BundleId(matches[1]);
         var pseudonym = bundleId.getPseudonym();
-        console.log(pseudonym);
         if (pseudonym) {
             var original_name = $('.provprofilebadge .details strong').html();
             $('.provprofilebadge .details strong').html(pseudonym);
