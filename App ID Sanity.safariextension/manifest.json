@@ -1,0 +1,13 @@
+// Chrome manifest file
+{
+    "name": "App ID Sanity",
+    "version": "1.0",
+    "description": "Manage your App IDs in the Apple developer provisioning portal",
+    "content_scripts": [
+        {
+            "matches": ["*://developer.apple.com/*"],
+            "css": ["sanity.css"],
+            "js": ["jquery-1.6.4.min.js", "sanity.js"]
+        }
+    ]
+}
