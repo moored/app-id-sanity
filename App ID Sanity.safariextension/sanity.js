@@ -5,7 +5,7 @@ function BundleId(bundleId) {
     this.bundleId = bundleId;
 }
 
-BundleId.prototype.isInactive = function() {
+BundleId.prototype.isActive = function() {
     return localStorage.getItem(this.getActivityStatusKey()) == STATUS_INACTIVE;
 }
 
@@ -29,14 +29,14 @@ if (document.location.href.match('/manage/bundles/index.action$')) {
             var matches = tds.last().html().match('\\?displayId=([A-Z0-9]+)');
             if (matches) {
                 var bundleId = new BundleId(matches[1]);
-                if (bundleId.isInactive()) {
+                if (!bundleId.isActive()) {
                     $(tr).addClass('inactive');
                 }
 
                 var delete_td = $('<td style="vertical-align:middle; text-align:center;"></td>');
 
                 var checkbox = $('<input type="checkbox"></input>');
-                checkbox.prop('checked', !bundleId.isInactive());
+                checkbox.prop('checked', bundleId.isActive());
                 checkbox.click(function(event) {
                     var is_active = $(this).is(':checked');
                     bundleId.setActive(is_active);
@@ -57,7 +57,7 @@ if (document.location.href.match('/manage/bundles/index.action$')) {
             return;
             
         var bundleId = new BundleId($(option).val());
-        if (bundleId.isInactive()) {
+        if (!bundleId.isActive()) {
             $(option).remove();
         }
     });
