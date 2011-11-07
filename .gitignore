@@ -13,3 +13,5 @@
 *.tmproject
 tmtags
 
+*.pem
+*.crx
