@@ -33,7 +33,7 @@ BundleId.prototype.setPseudonym = function(pseudonym) {
     }
 }
 
-if (document.location.href.match('/manage/bundles/index.action$')) {
+if (document.location.href.match('/manage/bundles/index.action')) {
     //--------------------------------------------
     // Index page
     //--------------------------------------------
