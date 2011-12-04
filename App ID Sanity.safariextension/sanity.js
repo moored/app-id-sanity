@@ -12,8 +12,8 @@ BundleId.prototype.getStorageKey = function(keyName) {
     return 'uk.co.goosoftware.app-id-sanity/' + this.bundleId + '/' + keyName;
 }
 
-BundleId.prototype.isInactive = function() {
-    return localStorage.getItem(this.getStorageKey(STORAGE_KEY_STATUS)) == STATUS_INACTIVE;
+BundleId.prototype.isActive = function() {
+    return localStorage.getItem(this.getStorageKey(STORAGE_KEY_STATUS)) != STATUS_INACTIVE;
 }
 
 BundleId.prototype.setActive = function(isActive) {
@@ -49,9 +49,7 @@ if (document.location.href.match('/manage/bundles/index.action')) {
             var matches = tds.last().html().match('\\?displayId=([A-Z0-9]+)');
             if (matches) {
                 var bundleId = new BundleId(matches[1]);
-                if (bundleId.isInactive()) {
-                    $(tr).addClass('inactive');
-                }
+                $(tr).toggleClass('inactive', !bundleId.isActive());
                 
                 // Make the description editable
                 var name_td = $(tr).find('td.name');
@@ -71,7 +69,7 @@ if (document.location.href.match('/manage/bundles/index.action')) {
 
                 // Create the active/inactive checkbox
                 var checkbox = $('<input type="checkbox"></input>');
-                checkbox.prop('checked', !bundleId.isInactive());
+                checkbox.prop('checked', bundleId.isActive());
                 checkbox.click(function(event) {
                     var is_active = $(this).is(':checked');
                     bundleId.setActive(is_active);
@@ -105,12 +103,12 @@ if (document.location.href.match('/manage/bundles/index.action')) {
         }
         
         var statusLabel = $('<span class="label" style="float:right"></span>');
-        if (bundleId.isInactive()) {
-            statusLabel.html("Inactive");
-        } else {
+        if (bundleId.isActive()) {
             statusLabel.html("Active");
+        } else {
+            statusLabel.html("Inactive");
         }
-        statusLabel.toggleClass('active', !bundleId.isInactive());
+        statusLabel.toggleClass('active', bundleId.isActive());
         
         $('.provprofilebadge .details').prepend(statusLabel);
     }    
@@ -122,7 +120,7 @@ if ($('select[name="cfBundleDisplayId"]').length > 0) {
         var bundleId = new BundleId($(option).val());
 
         // if this bundle ID's inactive, remove it from the drop down
-        if (bundleId.isInactive()) {
+        if (!bundleId.isActive()) {
             $(option).remove();
         } else {
             // If this bundle ID has a pseudonym, use it here
