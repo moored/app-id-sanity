@@ -17,3 +17,12 @@ tr.inactive input.description {
     font-weight: normal;
     color: #555;
 }
+
+span.label {
+    padding-left: 20px !important;
+    background: url('https://devimages.apple.com.edgekey.net/assets/apps/images/portal/icon_status_gray.png') no-repeat left center;
+}
+
+span.label.active {
+    background-image: url('https://devimages.apple.com.edgekey.net/assets/apps/images/portal/icon_status_green.png');
+}

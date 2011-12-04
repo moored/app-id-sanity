@@ -103,6 +103,16 @@ if (document.location.href.match('/manage/bundles/index.action')) {
             $('.provprofilebadge .details strong').html(pseudonym);
             $('.provprofilebadge .details strong').append($('<span class="original_name"> (original name: "' + original_name + '")</span>'));
         }
+        
+        var statusLabel = $('<span class="label" style="float:right"></span>');
+        if (bundleId.isInactive()) {
+            statusLabel.html("Inactive");
+        } else {
+            statusLabel.html("Active");
+        }
+        statusLabel.toggleClass('active', !bundleId.isInactive());
+        
+        $('.provprofilebadge .details').prepend(statusLabel);
     }    
 }
 
