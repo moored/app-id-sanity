@@ -18,11 +18,21 @@ tr.inactive input.description {
     color: #555;
 }
 
-span.label {
-    padding-left: 20px !important;
-    background: url('https://devimages.apple.com.edgekey.net/assets/apps/images/portal/icon_status_gray.png') no-repeat left center;
+div.statusLabel {
+    float: right !important;
 }
 
-span.label.active {
+span.label {
+    padding-left: 20px !important;
+    text-align: right;
+    background: url('https://devimages.apple.com.edgekey.net/assets/apps/images/portal/icon_status_gray.png') no-repeat left top;
+}
+
+span.label a {
+    text-align: right !important;
+    margin: 3px 0 !important;
+}
+
+.statusLabel.active span.label {
     background-image: url('https://devimages.apple.com.edgekey.net/assets/apps/images/portal/icon_status_green.png');
 }

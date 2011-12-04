@@ -102,15 +102,24 @@ if (document.location.href.match('/manage/bundles/index.action')) {
             $('.provprofilebadge .details strong').append($('<span class="original_name"> (original name: "' + original_name + '")</span>'));
         }
         
-        var statusLabel = $('<span class="label" style="float:right"></span>');
-        if (bundleId.isActive()) {
-            statusLabel.html("Active");
-        } else {
-            statusLabel.html("Inactive");
-        }
-        statusLabel.toggleClass('active', bundleId.isActive());
+        var statusContainer = $('<div class="statusLabel"></div>');
+        var statusLabel = $('<span class="label"></span>');
+        statusLabel.html(bundleId.isActive() ? "Active" : "Inactive");
+        statusContainer.append(statusLabel);
+        statusContainer.append($('<br/>'));
         
-        $('.provprofilebadge .details').prepend(statusLabel);
+        var toggleLink = $('(<a id="toggleStatusLink" href="#">Change</a>)');
+        statusContainer.append(toggleLink);
+        statusContainer.toggleClass('active', bundleId.isActive());
+        
+        toggleLink.click(function(){
+            bundleId.setActive(!bundleId.isActive());
+            statusLabel.html(bundleId.isActive() ? "Active" : "Inactive");
+            statusContainer.toggleClass('active', bundleId.isActive());
+            return false;
+        });
+        
+        $('.provprofilebadge .details').prepend(statusContainer);
     }    
 }
 
