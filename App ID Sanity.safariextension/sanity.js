@@ -21,7 +21,17 @@ BundleId.prototype.setActive = function(isActive) {
 }
 
 BundleId.prototype.getPseudonym = function() {
-    return localStorage.getItem(this.getStorageKey(STORAGE_KEY_PSEUDONYM));
+    var result = localStorage.getItem(this.getStorageKey(STORAGE_KEY_PSEUDONYM));
+    // 2012-06-18: Layout change on developer.apple.com resulted in
+    // pseudonym DB getting contaminated with HTML cruft, specifically <br>
+    // followed by some whitespace. Here we'll clean up those entries and
+    // save the cleaned-up versions if needed.
+    var re = /\s*<br>.*/;
+    var trimmed = result.replace(re, '');
+    if (trimmed !== result) {
+        this.setPseudonym(trimmed);
+    }
+    return trimmed;
 }
 
 BundleId.prototype.setPseudonym = function(pseudonym) {
@@ -53,9 +63,9 @@ if (document.location.href.match('/manage/bundles/index.action')) {
                 
                 // Make the description editable
                 var name_td = $(tr).find('td.name');
-                var re = /<br>(.+)/;
+                var re = /<br>([^<]+)/;
                 name_td.html(name_td.html().replace(re, '<br><input type="text" class="description" placeholder="$1" value="$1"></input>'));
-                
+                                
                 var description = name_td.find('input.description');
                 var pseudonym = bundleId.getPseudonym();
                 if (pseudonym && pseudonym.length > 0) {
