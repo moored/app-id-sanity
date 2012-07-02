@@ -26,6 +26,10 @@ BundleId.prototype.getPseudonym = function() {
     // pseudonym DB getting contaminated with HTML cruft, specifically <br>
     // followed by some whitespace. Here we'll clean up those entries and
     // save the cleaned-up versions if needed.
+
+    // If result is null there is nothing to clean up, bail.
+    if (!result) return;
+
     var re = /\s*<br>.*/;
     var trimmed = result.replace(re, '');
     if (trimmed !== result) {
